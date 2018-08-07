@@ -237,11 +237,7 @@ function TakeposPrinting(id){
 <?php
 print '<div class="div-table-responsive-no-min">';
 print '<table id="tablelines" class="noborder noshadow" width="100%">';
-print '<tr class="liste_titre nodrag nodrop">';
-print '<td class="linecoldescription">'.$langs->trans('Description').'</td>';
-print '<td class="linecolqty" align="right">'.$langs->trans('Qty').'</td>';
-print '<td class="linecolht" align="right">'.$langs->trans('TotalHTShort').'</td>';
-print "</tr>\n";
+
 if ($placeid>0) foreach ($invoice->lines as $line)
 {
 	print '<tr class="drag drop oddeven';
@@ -253,19 +249,19 @@ if ($placeid>0) foreach ($invoice->lines as $line)
 	print '</tr>';
 }
 print '</table>';
-print '<p style="font-size:120%;" align="right"><b>'.$langs->trans('TotalTTC');
+print '<p style="font-size:120%;color:black;" align="right"><b>'.$langs->trans('TotalTTC');
 if($conf->global->TAKEPOS_BAR_RESTAURANT) print " ".$langs->trans('Place')." ".$place;
 print ': '.price($invoice->total_ttc, 1, '', 1, - 1, - 1, $conf->currency).'&nbsp;</b></p>';
 if ($invoice->socid!=$conf->global->CASHDESK_ID_THIRDPARTY){
     $soc = new Societe($db);
     $soc->id = $invoice->socid;
     $soc->fetch($invoice->socid);
-    print '<p style="font-size:120%;" align="right">(';
+    print '<p style="font-size:120%;color:black;" align="right">(';
     print $soc->name;
     print ')</p>';
 }
 if ($action=="valid"){
-	print '<p style="font-size:120%;" align="center"><b>'.$invoice->facnumber." ".$langs->trans('BillShortStatusValidated').'</b></p>';
+	print '<p style="font-size:120%;color:black;" align="center"><b>'.$invoice->facnumber." ".$langs->trans('BillShortStatusValidated').'</b></p>';
 	if ($conf->global->TAKEBOX) print '<center><button type="button" onclick="TakeposPrinting('.$placeid.');">'.$langs->trans('PrintTicket').'</button><center>';
 	else print '<center><button type="button" onclick="Print('.$placeid.');">'.$langs->trans('PrintTicket').'</button><center>';
 }
