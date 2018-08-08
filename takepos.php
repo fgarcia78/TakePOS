@@ -61,6 +61,9 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
 		<script type="text/javascript">
 		var place="<?php echo $place;?>";
+		var editnumber="";
+		var editaction="qty";
+		
 		$(document).on('click', '.js-category-switch', function () {
 			var text="";
 			$.getJSON('./ajax.php?action=getProducts&category='+$(this).attr( "data-category-id" ), function(data) {
@@ -76,18 +79,83 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		function Refresh(){
 			$("div.order").load("invoice.php?place="+place, function() {
 				$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
-		});
+			});
+		}
 		
 		function CloseBill(){
 			$.colorbox({href:"pay.php?place="+place, width:"80%", height:"90%", transition:"none", iframe:"true", title:"<?php echo $langs->trans("CloseBill");?>"});
 		}
 		
-		pay
-		$(document).on('click', '.pay', function () {
-			$.colorbox({href:"pay.php?place="+place, width:"80%", height:"90%", transition:"none", iframe:"true", title:"<?php echo $langs->trans("CloseBill");?>"});
-		});
 		
-	}	
+		function Edit(number){
+			var text=selectedtext+"<br> ";
+			if (number=='c'){
+				editnumber="";
+				Refresh();
+				return;
+			}
+			else if (number=='qty'){
+				if (editaction=='qty' && editnumber!=""){
+					$("#poslines").load("invoice.php?action=updateqty&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
+						editnumber="";
+						$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+						$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
+					});
+					return;
+				}
+				else {
+					editaction="qty";
+				}
+			}
+			else if (number=='p'){
+				if (editaction=='p' && editnumber!=""){
+					$("#poslines").load("invoice.php?action=updateprice&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
+						editnumber="";
+						$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+						$("#price").html("<?php echo $langs->trans("Price"); ?>");
+					});
+					return;
+				}
+				else {
+					editaction="p";
+				}
+			}
+			else if (number=='r'){
+				if (editaction=='r' && editnumber!=""){
+					$("#poslines").load("invoice.php?action=updatereduction&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
+						editnumber="";
+						$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+						$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
+					});
+					return;
+				}
+				else {
+					editaction="r";
+				}
+			}
+			else {
+				editnumber=editnumber+number;
+			}
+			if (editaction=='qty'){
+				text=text+"<?php echo $langs->trans("Modify")." -> ".$langs->trans("Qty").": "; ?>";
+				$("#qty").html("OK");
+				$("#price").html("<?php echo $langs->trans("Price"); ?>");
+				$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
+			}
+			if (editaction=='p'){
+				text=text+"<?php echo $langs->trans("Modify")." -> ".$langs->trans("Price").": "; ?>";
+				$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
+				$("#price").html("OK");
+				$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
+			}
+			if (editaction=='r'){
+				text=text+"<?php echo $langs->trans("Modify")." -> ".$langs->trans("ReductionShort").": "; ?>";
+				$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
+				$("#price").html("<?php echo $langs->trans("Price"); ?>");
+				$("#reduction").html("OK");
+			}
+			$('#'+selectedline).find("td:first").html(text+editnumber);
+		}
 		
 		</script>
 		
@@ -212,7 +280,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                     Customer
                 
             </button>
-            <button class="button pay">
+            <button class="button pay" onclick="CloseBill();">
                 <div class="pay-circle">
                     <i class="fa fa-chevron-right"></i> 
                 </div>
@@ -220,7 +288,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             </button>
         </div>
                                 <div class="numpad">
-            <button class="input-button number-char">1</button>
+            <button class="input-button number-char" onclick="Edit(1);">1</button>
             <button class="input-button number-char">2</button>
             <button class="input-button number-char">3</button>
             <button class="mode-button selected-mode" data-mode="quantity">Qty</button>
