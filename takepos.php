@@ -69,7 +69,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			$.getJSON('./ajax.php?action=getProducts&category='+$(this).attr( "data-category-id" ), function(data) {
 				$.each(data, function(i, obj) {
 					price=Math.round(obj.price_ttc * 100) / 100;
-					text+='<span class="product" data-product-id="44"><div class="product-img"><img src="genimg/?query=pro&w=220&h=200&id='+obj.id+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
+					text+='<span class="product" onclick="ClickProduct('+obj.id+')"><div class="product-img"><img src="genimg/?query=pro&w=220&h=200&id='+obj.id+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
 				});	
 				$( "div.product-list" ).html(text);
 				Refresh();
@@ -78,7 +78,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		
 		function Refresh(){
 			$("div.order").load("invoice.php?place="+place, function() {
-				$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+				$('div.order').scrollTop($('div.order')[0].scrollHeight);
 			});
 		}
 		
@@ -96,9 +96,9 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			}
 			else if (number=='qty'){
 				if (editaction=='qty' && editnumber!=""){
-					$("#poslines").load("invoice.php?action=updateqty&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
+					$("div.order").load("invoice.php?action=updateqty&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
 						editnumber="";
-						$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+						$('div.order').scrollTop($('div.order')[0].scrollHeight);
 						$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
 					});
 					return;
@@ -109,9 +109,9 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			}
 			else if (number=='p'){
 				if (editaction=='p' && editnumber!=""){
-					$("#poslines").load("invoice.php?action=updateprice&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
+					$("div.order").load("invoice.php?action=updateprice&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
 						editnumber="";
-						$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+						$('div.order').scrollTop($('div.order')[0].scrollHeight);
 						$("#price").html("<?php echo $langs->trans("Price"); ?>");
 					});
 					return;
@@ -122,9 +122,9 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			}
 			else if (number=='r'){
 				if (editaction=='r' && editnumber!=""){
-					$("#poslines").load("invoice.php?action=updatereduction&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
+					$("div.order").load("invoice.php?action=updatereduction&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
 						editnumber="";
-						$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+						$('div.order').scrollTop($('div.order')[0].scrollHeight);
 						$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
 					});
 					return;
@@ -139,23 +139,30 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			if (editaction=='qty'){
 				text=text+"<?php echo $langs->trans("Modify")." -> ".$langs->trans("Qty").": "; ?>";
 				$("#qty").html("OK");
-				$("#price").html("<?php echo $langs->trans("Price"); ?>");
-				$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
+				$("#price").html("Price");
+				$("#reduction").html("Disc");
 			}
 			if (editaction=='p'){
 				text=text+"<?php echo $langs->trans("Modify")." -> ".$langs->trans("Price").": "; ?>";
-				$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
+				$("#qty").html("Qty");
 				$("#price").html("OK");
-				$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
+				$("#reduction").html("Disc");
 			}
 			if (editaction=='r'){
 				text=text+"<?php echo $langs->trans("Modify")." -> ".$langs->trans("ReductionShort").": "; ?>";
-				$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
-				$("#price").html("<?php echo $langs->trans("Price"); ?>");
+				$("#qty").html("Qty");
+				$("#price").html("Price");
 				$("#reduction").html("OK");
 			}
 			$('#'+selectedline).find("td:first").html(text+editnumber);
 		}
+        
+        
+        function ClickProduct(idproduct){
+            $("div.order").load("invoice.php?action=addline&place="+place+"&idproduct="+idproduct, function() {
+                $('div.order').scrollTop($('div.order')[0].scrollHeight);
+            });
+        }
 		
 		</script>
 		
@@ -289,23 +296,23 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
         </div>
                                 <div class="numpad">
             <button class="input-button number-char" onclick="Edit(1);">1</button>
-            <button class="input-button number-char">2</button>
-            <button class="input-button number-char">3</button>
-            <button class="mode-button selected-mode" data-mode="quantity">Qty</button>
+            <button class="input-button number-char" onclick="Edit(2);">2</button>
+            <button class="input-button number-char" onclick="Edit(3);">3</button>
+            <button class="mode-button" id="qty" data-mode="quantity" onclick="Edit('qty');">Qty</button>
             <br>
-            <button class="input-button number-char">4</button>
-            <button class="input-button number-char">5</button>
-            <button class="input-button number-char">6</button>
-            <button class="mode-button" data-mode="discount">Disc</button>
+            <button class="input-button number-char" onclick="Edit(4);">4</button>
+            <button class="input-button number-char" onclick="Edit(5);">5</button>
+            <button class="input-button number-char" onclick="Edit(6);">6</button>
+            <button class="mode-button" id="reduction" data-mode="discount" onclick="Edit('r');">Disc</button>
             <br>
-            <button class="input-button number-char">7</button>
-            <button class="input-button number-char">8</button>
-            <button class="input-button number-char">9</button>
-            <button class="mode-button" data-mode="price">Price</button>
+            <button class="input-button number-char" onclick="Edit(7);">7</button>
+            <button class="input-button number-char" onclick="Edit(8);">8</button>
+            <button class="input-button number-char" onclick="Edit(9);">9</button>
+            <button class="mode-button" id="price" data-mode="price" onclick="Edit('p');">Price</button>
             <br>
-            <button class="input-button numpad-minus">+/-</button>
-            <button class="input-button number-char">0</button>
-            <button class="input-button number-char">.</button>
+            <button class="input-button numpad-minus" onclick="Edit('c');">C</button>
+            <button class="input-button number-char" onclick="Edit(0);">0</button>
+            <button class="input-button number-char" onclick="Edit('.');">.</button>
             <button class="input-button numpad-backspace">
                 <img height="21" src="./odoo_theme/backspace.png" style="pointer-events: none;" width="24">
             </button>
