@@ -65,8 +65,14 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		var editaction="qty";
 		
 		$(document).on('click', '.js-category-switch', function () {
+			var catid=$(this).attr( "data-category-id" );
+			LoadProducts(catid);
+			$(".header-row").removeClass("selected");
+		});
+		
+		function LoadProducts(catid){
 			var text="";
-			$.getJSON('./ajax.php?action=getProducts&category='+$(this).attr( "data-category-id" ), function(data) {
+			$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
 				$.each(data, function(i, obj) {
 					price=Math.round(obj.price_ttc * 100) / 100;
 					text+='<span class="product" onclick="ClickProduct('+obj.id+')"><div class="product-img"><img src="genimg/?query=pro&w=220&h=200&id='+obj.id+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
@@ -74,7 +80,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 				$( "div.product-list" ).html(text);
 				Refresh();
 			});
-		});
+		}
 		
 		function Refresh(){
 			$("div.order").load("invoice.php?place="+place, function() {
@@ -84,6 +90,10 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		
 		function CloseBill(){
 			$.colorbox({href:"pay.php?place="+place, width:"80%", height:"90%", transition:"none", iframe:"true", title:"<?php echo $langs->trans("CloseBill");?>"});
+		}
+		
+		function Customer(){
+			$.colorbox({href:"customers.php?place="+place, width:"90%", height:"80%", transition:"none", iframe:"true", title:"<?php echo $langs->trans("Customer");?>"});
 		}
 		
 		
@@ -163,6 +173,11 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                 $('div.order').scrollTop($('div.order')[0].scrollHeight);
             });
         }
+		
+		$( document ).ready(function() {
+			var firstcategory=$('span:first', 'div.category-list').attr( "data-category-id" );
+			LoadProducts(firstcategory);
+		});
 		
 		</script>
 		
@@ -260,14 +275,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                             <div class="subwindow-container-fix">
                                 <div class="order-container">
             <div class="order-scroller touch-scrollable">
-                <div class="order">
-                    
-                        <div class="order-empty">
-                            <i class="fa fa-shopping-cart"></i>
-                            <h1>Your shopping cart is empty</h1>
-                        </div>
-                    
-                    
+                <div class="order" id="poslines">
                 </div>
             </div>
         </div>
@@ -280,12 +288,9 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                             <div class="subwindow-container-fix pads">
                                 <div class="control-buttons oe_hidden"></div>
                                 <div class="actionpad">
-            <button class="button set-customer ">
+            <button class="button set-customer" onclick="Customer();">
                 <i class="fa fa-user"></i> 
-                
-                
-                    Customer
-                
+                <?php echo $langs->trans("Customer"); ?>
             </button>
             <button class="button pay" onclick="CloseBill();">
                 <div class="pay-circle">
@@ -333,7 +338,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             <div class="breadcrumbs">
                 <span class="breadcrumb">
                     <span class=" breadcrumb-button breadcrumb-home js-category-switch">
-                        <i class="fa fa-home"></i>
+                        <a href="takepos.php"><i class="fa fa-home"></i></a>
                     </span>
                 </span>
                 
@@ -373,24 +378,6 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                                 <div class="product-list-container">
             <div class="product-list-scroller touch-scrollable">
                 <div class="product-list">
-				
-				
-                <span class="product" data-product-id="44">
-					<div class="product-img">
-						<img src="http://127.0.0.1/takepos7/htdocs/viewimage.php?modulepart=product&entity=1&file=%2Fcocacola%2Fthumbs%2Fcocacola_small.jpg"> 
-						<span class="price-tag">
-							18.00 €
-						</span>
-					</div>
-					<div class="product-name">
-						Miscellaneous
-					</div>
-				</span>
-				
-				
-				
-				
-				
 				</div>
             </div>
             <span class="placeholder-ScrollbarWidget"></span>
