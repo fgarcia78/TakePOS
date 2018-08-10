@@ -210,11 +210,6 @@ if ($action=="order" and $order_receipt_printer2!=""){
 	});
 <?php
 }
-if ($action=="search"){
-	?>
-	$('#search').focus();
-	<?php
-}
 ?>
 });
 
@@ -264,10 +259,5 @@ if ($action=="valid"){
 	print '<p style="font-size:120%;color:black;" align="center"><b>'.$invoice->facnumber." ".$langs->trans('BillShortStatusValidated').'</b></p>';
 	if ($conf->global->TAKEBOX) print '<center><button type="button" onclick="TakeposPrinting('.$placeid.');">'.$langs->trans('PrintTicket').'</button><center>';
 	else print '<center><button type="button" onclick="Print('.$placeid.');">'.$langs->trans('PrintTicket').'</button><center>';
-}
-if ($action=="search"){
-	print '<center>
-	<input type="text" id="search" name="search" onkeyup="Search2();" name="search" style="width:80%;font-size: 150%;" placeholder='.$langs->trans('Search').'
-	</center>';
 }
 print '</div>';

@@ -166,6 +166,12 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			}
 			$('#'+selectedline).find("td:first").html(text+editnumber);
 		}
+		
+		function deleteline(){
+			$("#poslines").load("invoice.php?action=deleteline&place="+place+"&idline="+selectedline, function() {
+				$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
+			});
+		}
         
         
         function ClickProduct(idproduct){
@@ -173,6 +179,18 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                 $('div.order').scrollTop($('div.order')[0].scrollHeight);
             });
         }
+		
+		function Search(){
+			var text="";
+			$.getJSON('./ajax.php?action=search&term='+$('#search').val(), function(data) {
+				$.each(data, function(i, obj) {
+					price=Math.round(obj.price_ttc * 100) / 100;
+					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="genimg/?query=pro&w=220&h=200&id='+obj.rowid+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
+				});	
+				$( "div.product-list" ).html(text);
+				Refresh();
+			});
+		}
 		
 		$( document ).ready(function() {
 			var firstcategory=$('span:first', 'div.category-list').attr( "data-category-id" );
@@ -318,7 +336,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             <button class="input-button numpad-minus" onclick="Edit('c');">C</button>
             <button class="input-button number-char" onclick="Edit(0);">0</button>
             <button class="input-button number-char" onclick="Edit('.');">.</button>
-            <button class="input-button numpad-backspace">
+            <button class="input-button numpad-backspace" onclick="deleteline();">
                 <img height="21" src="./odoo_theme/backspace.png" style="pointer-events: none;" width="24">
             </button>
         </div>
@@ -344,7 +362,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                 
             </div>
             <div class="searchbox">
-                <input placeholder="Search Products">
+                <input placeholder="Search Products" onkeyup="Search();" id="search">
                 <span class="search-clear"></span>
             </div>
         </header>
