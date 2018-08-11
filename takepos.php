@@ -70,6 +70,10 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			$(".header-row").removeClass("selected");
 		});
 		
+		$(document).on('click', '.product', function () {
+			$(".content-row").removeClass("selected");
+		});
+		
 		function LoadProducts(catid){
 			var text="";
 			$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
@@ -83,9 +87,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		}
 		
 		function Refresh(){
-			$("div.order").load("invoice.php?place="+place, function() {
-				$('div.order').scrollTop($('div.order')[0].scrollHeight);
-			});
+			$("div.order").load("invoice.php?place="+place);
 		}
 		
 		function CloseBill(){
@@ -108,7 +110,6 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 				if (editaction=='qty' && editnumber!=""){
 					$("div.order").load("invoice.php?action=updateqty&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
 						editnumber="";
-						$('div.order').scrollTop($('div.order')[0].scrollHeight);
 						$("#qty").html("<?php echo $langs->trans("Qty"); ?>");
 					});
 					return;
@@ -121,7 +122,6 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 				if (editaction=='p' && editnumber!=""){
 					$("div.order").load("invoice.php?action=updateprice&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
 						editnumber="";
-						$('div.order').scrollTop($('div.order')[0].scrollHeight);
 						$("#price").html("<?php echo $langs->trans("Price"); ?>");
 					});
 					return;
@@ -134,7 +134,6 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 				if (editaction=='r' && editnumber!=""){
 					$("div.order").load("invoice.php?action=updatereduction&place="+place+"&idline="+selectedline+"&number="+editnumber, function() {
 						editnumber="";
-						$('div.order').scrollTop($('div.order')[0].scrollHeight);
 						$("#reduction").html("<?php echo $langs->trans("ReductionShort"); ?>");
 					});
 					return;
@@ -168,16 +167,12 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		}
 		
 		function deleteline(){
-			$("#poslines").load("invoice.php?action=deleteline&place="+place+"&idline="+selectedline, function() {
-				$('#poslines').scrollTop($('#poslines')[0].scrollHeight);
-			});
+			$("#poslines").load("invoice.php?action=deleteline&place="+place+"&idline="+selectedline);
 		}
         
         
         function ClickProduct(idproduct){
-            $("div.order").load("invoice.php?action=addline&place="+place+"&idproduct="+idproduct, function() {
-                $('div.order').scrollTop($('div.order')[0].scrollHeight);
-            });
+            $("div.order").load("invoice.php?action=addline&place="+place+"&idproduct="+idproduct);
         }
 		
 		function Search(){
