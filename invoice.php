@@ -228,6 +228,7 @@ function TakeposPrinting(id){
 		});
     });
 }
+location.href = "#bottom";
 </script>
 <?php
 print '<div class="div-table-responsive-no-min">';
@@ -260,4 +261,4 @@ if ($action=="valid"){
 	if ($conf->global->TAKEBOX) print '<center><button type="button" onclick="TakeposPrinting('.$placeid.');">'.$langs->trans('PrintTicket').'</button><center>';
 	else print '<center><button type="button" onclick="Print('.$placeid.');">'.$langs->trans('PrintTicket').'</button><center>';
 }
-print '</div>';
+print '<p id="bottom"></p></div>';
