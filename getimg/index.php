@@ -113,18 +113,18 @@ $filename = $dir.$filename;
 
 if (!file_exists($filename)) $filename="empty.jpg";
 
-// Dimensions
-list($width, $height) = getimagesize($filename);
-$new_width = $w;
-$new_height = $h;
+$file_extension = strtolower(substr(strrchr($filename,"."),1));
 
-// Resample
-$image_p = imagecreatetruecolor($new_width, $new_height);
-$image = imagecreatefromjpeg($filename);
-imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+switch( $file_extension ) {
+    case "gif": $ctype="image/gif"; break;
+    case "png": $ctype="image/png"; break;
+    case "jpeg":
+    case "jpg": $ctype="image/jpeg"; break;
+    default:
+}
 
-// Output
-imagejpeg($image_p, null, 100);
+header('Content-type: ' . $ctype);
+readfile($filename);
 }
 
 

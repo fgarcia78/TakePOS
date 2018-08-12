@@ -79,7 +79,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
 				$.each(data, function(i, obj) {
 					price=Math.round(obj.price_ttc * 100) / 100;
-					text+='<span class="product" onclick="ClickProduct('+obj.id+')"><div class="product-img"><img src="genimg/?query=pro&w=220&h=200&id='+obj.id+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
+					text+='<span class="product" onclick="ClickProduct('+obj.id+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.id+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
 				});	
 				$( "div.product-list" ).html(text);
 				Refresh();
