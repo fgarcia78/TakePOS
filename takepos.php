@@ -208,17 +208,21 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                 <div class="pos-rightheader">
                     <div class="order-selector">
             <span class="orders touch-scrollable">
-
-                
-                    
-                        <span class="order-button select-order selected" data-uid="00001-001-0001">
-                            <span class="order-sequence">
-                                1
+			
+			
+			<?php
+			if($conf->global->TAKEPOS_BAR_RESTAURANT){
+				$sql="SELECT floor from ".MAIN_DB_PREFIX."takepos_floor_tables group by floor";
+				$resql = $db->query($sql);
+				$rows = array();
+				while($row = $db->fetch_array ($resql)){
+					echo '<span class="order-button select-order selected" data-uid="'.$row[0].'"><span class="floor-button">'.$langs->trans("Floor").' '.$row[0].'
                             </span>
-                            05:41
-                        </span>
-                    
-                    
+                        </span>';
+				
+				}  
+			}
+			?>                   
                 
             </span>
             <span class="order-button square neworder-button">
