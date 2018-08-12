@@ -180,12 +180,15 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			$.getJSON('./ajax.php?action=search&term='+$('#search').val(), function(data) {
 				$.each(data, function(i, obj) {
 					price=Math.round(obj.price_ttc * 100) / 100;
-					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="genimg/?query=pro&w=220&h=200&id='+obj.rowid+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
+					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
 				});	
 				$( "div.product-list" ).html(text);
-				Refresh();
 			});
 		}
+		
+		function Floor(floor){
+			$.colorbox({href:"floors.php?floor="+floor, width:"90%", height:"90%", transition:"none", iframe:"true", title:"<?php echo $langs->trans("Floors");?>"});
+	}
 		
 		$( document ).ready(function() {
 			var firstcategory=$('span:first', 'div.category-list').attr( "data-category-id" );
@@ -216,7 +219,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 				$resql = $db->query($sql);
 				$rows = array();
 				while($row = $db->fetch_array ($resql)){
-					echo '<span class="order-button select-order selected" data-uid="'.$row[0].'"><span class="floor-button">'.$langs->trans("Floor").' '.$row[0].'
+					echo '<span class="order-button select-order selected" data-uid="'.$row[0].'" onclick="Floor('.$row[0].');"><span class="floor-button">'.$langs->trans("Floor").' '.$row[0].'
                             </span>
                         </span>';
 				
@@ -248,7 +251,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                 <i class="fa fa-fw fa-warning"></i>
             </div>
         </div><div class="header-button">
-            Close
+            <?php echo $langs->trans("Close");?>
         </div></div>
             </div>
 
@@ -261,28 +264,6 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                                 
                             <div class="scale-screen screen oe_hidden">
             <div class="screen-content">
-                <div class="top-content">
-                    <span class="button back">
-                        <i class="fa fa-angle-double-left"></i>
-                        Back
-                    </span>
-                    <h1 class="product-name">Unnamed Product</h1>
-                </div>
-                <div class="centered-content">
-                    <div class="weight js-weight">
-                        0.000 Kg
-                    </div>
-                    <div class="product-price">
-                        0.00 €/
-                    </div>
-                    <div class="computed-price">
-                        123.14 €
-                    </div>
-                    <div class="buy-product">
-                        Order
-                        <i class="fa fa-angle-double-right"></i>
-                    </div>
-                </div>
             </div>
         </div><div class="product-screen screen">
             <div class="leftpane">
@@ -361,7 +342,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                 
             </div>
             <div class="searchbox">
-                <input placeholder="Search Products" onkeyup="Search();" id="search">
+                <input placeholder="<?php echo $langs->trans('Search');?>" onkeyup="Search();" id="search">
                 <span class="search-clear"></span>
             </div>
         </header>
@@ -405,150 +386,8 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 
                 </tbody></table>
             </div>
-        </div><div class="clientlist-screen screen oe_hidden">
-            <div class="screen-content">
-                <section class="top-content">
-                    <span class="button back">
-                        <i class="fa fa-angle-double-left"></i>
-                        Cancel
-                    </span>
-                    <span class="searchbox">
-                        <input placeholder="Search Customers">
-                        <span class="search-clear"></span>
-                    </span>
-                    <span class="searchbox"></span>
-                    <span class="button new-customer">
-                        <i class="fa fa-user"></i>
-                        <i class="fa fa-plus"></i>
-                    </span>
-                    <span class="button next oe_hidden highlight">
-                        Select Customer
-                        <i class="fa fa-angle-double-right"></i>
-                    </span>
-                </section>
-                <section class="full-content">
-                    <div class="window">
-                        <section class="subwindow collapsed">
-                            <div class="subwindow-container collapsed">
-                                <div class="subwindow-container-fix client-details-contents">
-                                </div>
-                            </div>
-                        </section>
-                        <section class="subwindow">
-                            <div class="subwindow-container">
-                                <div class="subwindow-container-fix touch-scrollable scrollable-y">
-                                    <table class="client-list">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Address</th>
-                                                <th>Phone</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="client-list-contents">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </section>
-            </div>
-        </div><div class="receipt-screen screen oe_hidden">
-            <div class="screen-content">
-                <div class="top-content">
-                    <h1>Change: <span class="change-value">0.00</span></h1>
-                    <span class="button next">
-                        Next Order
-                        <i class="fa fa-angle-double-right"></i>
-                    </span>
-                </div>
-                <div class="centered-content touch-scrollable">
-                    <div class="button print">
-                        <i class="fa fa-print"></i> Print Receipt
-                    </div>
-                    <div class="pos-receipt-container">
-                    </div>
-                </div>
-            </div>
-        </div><div class="payment-screen screen oe_hidden">
-            <div class="screen-content">
-                <div class="top-content">
-                    <span class="button back">
-                        <i class="fa fa-angle-double-left"></i>
-                        Back
-                    </span>
-                    <h1>Payment</h1>
-                    <span class="button next">
-                        Validate
-                        <i class="fa fa-angle-double-right"></i>
-                    </span>
-                </div>
-                <div class="left-content pc40 touch-scrollable scrollable-y">
-
-                    <div class="paymentmethods-container">
-                    <div class="paymentmethods">
-            
-                <div class="button paymentmethod" data-id="8">
-                    Cash (EUR)
-                </div>
-            
-        </div></div>
-
-                </div>
-                <div class="right-content pc60 touch-scrollable scrollable-y">
-
-                    <section class="paymentlines-container"><div class="paymentlines-empty">
-                <div class="total">
-                    0.00 €
-                </div>
-                <div class="message">
-                    Please select a payment method. 
-                </div>
-            </div></section>
-
-                    <section class="payment-numpad">
-                    <div class="numpad">
-            <button class="input-button number-char" data-action="1">1</button>
-            <button class="input-button number-char" data-action="2">2</button>
-            <button class="input-button number-char" data-action="3">3</button>
-            <button class="mode-button" data-action="+10">+10</button>
-            <br>
-            <button class="input-button number-char" data-action="4">4</button>
-            <button class="input-button number-char" data-action="5">5</button>
-            <button class="input-button number-char" data-action="6">6</button>
-            <button class="mode-button" data-action="+20">+20</button>
-            <br>
-            <button class="input-button number-char" data-action="7">7</button>
-            <button class="input-button number-char" data-action="8">8</button>
-            <button class="input-button number-char" data-action="9">9</button>
-            <button class="mode-button" data-action="+50">+50</button>
-            <br>
-            <button class="input-button numpad-char" data-action="CLEAR">C</button>
-            <button class="input-button number-char" data-action="0">0</button>
-            <button class="input-button number-char" data-action=".">.</button>
-            <button class="input-button numpad-backspace" data-action="BACKSPACE">
-                <img height="21" src="./odoo_theme/backspace.png" width="24">
-            </button>
-        </div></section>
-
-                    <div class="payment-buttons">
-                        <div class="button js_set_customer">
-                            <i class="fa fa-user"></i> 
-                            <span class="js_customer_name"> 
-                                
-                                
-                                    Customer
-                                
-                            </span>
-                        </div>
-                        
-                        
-                        
-                     </div>
-                 </div>
-             </div>
-         </div></div>
+        </div>
+		</div>
                         </div>
                     </div>
                 </div>
@@ -592,290 +431,9 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             </ul>
             <p class="close_button">close</p>
         </div>
-            <div class="debug-widget oe_hidden">
-            <h1>Debug Window</h1>
-            <div class="toggle"><i class="fa fa-times"></i></div>
-            <div class="content">
-                <p class="category">Electronic Scale</p>
-                <ul>
-                    <li><input class="weight" type="text"></li>
-                    <li class="button set_weight">Set Weight</li>
-                    <li class="button reset_weight">Reset</li>
-                </ul>
-
-                <p class="category">Barcode Scanner</p>
-                <ul>
-                    <li><input class="ean" type="text"></li>
-                    <li class="button barcode">Scan</li>
-                    <li class="button custom_ean">Scan EAN-13</li>
-                </ul>
-
-                <p class="category">Orders</p>
-
-                <ul>
-                    <li class="button delete_orders">Delete Paid Orders</li>
-                    <li class="button delete_unpaid_orders">Delete Unpaid Orders</li>
-                    <li class="button export_paid_orders">Export Paid Orders</li>
-                    <a><li class="button download_paid_orders oe_hidden">Download Paid Orders</li></a>
-                    <li class="button export_unpaid_orders">Export Unpaid Orders</li>
-                    <a><li class="button download_unpaid_orders oe_hidden">Download Unpaid Orders</li></a>
-                    <li class="button import_orders" style="position:relative">
-                        Import Orders
-                        <input style="opacity:0;position:absolute;top:0;left:0;right:0;bottom:0;margin:0;cursor:pointer" type="file">
-                    </li>
-                </ul>
-
-                <p class="category">Hardware Status</p>
-                <ul>
-                    <li class="status weighing">Weighing</li>
-                    <li class="button display_refresh">Refresh Display</li>
-                </ul>
-                <p class="category">Hardware Events</p>
-                <ul>
-                    <li class="event open_cashbox">Open Cashbox</li>
-                    <li class="event print_receipt">Print Receipt</li>
-                    <li class="event scale_read">Read Weighing Scale</li>
-                </ul>
-            </div>
-        </div></div>
+        </div>
 
             <div class="popups">
-                
-            <div class="modal-dialog oe_hidden">
-            <div class="popup popup-alert">
-                <p class="title">Alert</p>
-                <p class="body"></p>
-                <div class="footer">
-                    <div class="button cancel">
-                        Ok
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-error">
-                <p class="title">Error</p>
-                <p class="body"></p>
-                <div class="footer">
-                    <div class="button cancel">
-                        Ok
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-error">
-                <p class="title">Error</p>
-                <p class="body traceback"></p>
-                <div class="footer">
-                    <div class="button cancel">
-                        Ok
-                    </div>
-                    <a><div class="button icon download_error_file oe_hidden">
-                        <i class="fa fa-arrow-down"></i>
-                    </div></a>
-                    <div class="button icon download">
-                        <i class="fa fa-download"></i>
-                    </div>
-                    <div class="button icon email">
-                        <i class="fa fa-paper-plane"></i>
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-barcode">
-                <p class="title">Unknown Barcode
-                    <br>
-                    <span class="barcode"></span>
-                </p>
-                <p class="body">
-                    The Point of Sale could not find any product, client, employee
-                    or action associated with the scanned barcode.
-                </p>
-                <div class="footer">
-                    <div class="button cancel">
-                        Ok
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-confirm">
-                <p class="title">Confirm ?</p>
-                <p class="body"></p>
-                <div class="footer">
-                    <div class="button confirm">
-                        Confirm 
-                    </div>
-                    <div class="button cancel">
-                        Cancel 
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-selection">
-                <p class="title">Select</p>
-                <div class="selection scrollable-y touch-scrollable">
-                    
-                </div>
-                <div class="footer">
-                    <div class="button cancel">
-                        Cancel 
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-textinput">
-                <p class="title"></p>
-                <input type="text" value="">
-                <div class="footer">
-                    <div class="button confirm">
-                        Ok 
-                    </div>
-                    <div class="button cancel">
-                        Cancel 
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-textinput">
-                <p class="title"></p>
-                <textarea cols="40" rows="10"></textarea>
-                <div class="footer">
-                    <div class="button confirm">
-                        Ok 
-                    </div>
-                    <div class="button cancel">
-                        Cancel 
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-text">
-                <p class="title"></p>
-                <div class="packlot-lines">
-                    
-                </div>
-                <div class="footer">
-                    <div class="button confirm">
-                        Ok
-                    </div>
-                    <div class="button cancel">
-                        Cancel
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-number">
-                <p class="title"></p>
-                <div class="popup-input value active">
-                    
-                </div>
-                <div class="popup-numpad">
-                    <button class="input-button number-char" data-action="1">1</button>
-                    <button class="input-button number-char" data-action="2">2</button>
-                    <button class="input-button number-char" data-action="3">3</button>
-                    
-                        <button class="mode-button add" data-action="+10">+10</button>
-                    
-                    <br>
-                    <button class="input-button number-char" data-action="4">4</button>
-                    <button class="input-button number-char" data-action="5">5</button>
-                    <button class="input-button number-char" data-action="6">6</button>
-                    
-                        <button class="mode-button add" data-action="+20">+20</button>
-                    
-                    <br>
-                    <button class="input-button number-char" data-action="7">7</button>
-                    <button class="input-button number-char" data-action="8">8</button>
-                    <button class="input-button number-char" data-action="9">9</button>
-                    
-                        <button class="mode-button add" data-action="+50">+50</button>
-                    
-                    <br>
-                    <button class="input-button numpad-char" data-action="CLEAR">C</button>
-                    <button class="input-button number-char" data-action="0">0</button>
-                    <button class="input-button number-char dot"></button>
-                    <button class="input-button numpad-backspace" data-action="BACKSPACE">
-                        <img height="21" src="./odoo_theme/backspace.png" style="pointer-events: none;" width="24">
-                    </button>
-                    <br>
-                </div>
-                <div class="footer centered">
-                    <div class="button cancel">
-                        Cancel 
-                    </div>
-                    <div class="button confirm">
-                        Ok
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-number popup-password">
-                <p class="title"></p>
-                <div class="popup-input value active">
-                    
-                </div>
-                <div class="popup-numpad">
-                    <button class="input-button number-char" data-action="1">1</button>
-                    <button class="input-button number-char" data-action="2">2</button>
-                    <button class="input-button number-char" data-action="3">3</button>
-                    
-                        <button class="mode-button add" data-action="+10">+10</button>
-                    
-                    <br>
-                    <button class="input-button number-char" data-action="4">4</button>
-                    <button class="input-button number-char" data-action="5">5</button>
-                    <button class="input-button number-char" data-action="6">6</button>
-                    
-                        <button class="mode-button add" data-action="+20">+20</button>
-                    
-                    <br>
-                    <button class="input-button number-char" data-action="7">7</button>
-                    <button class="input-button number-char" data-action="8">8</button>
-                    <button class="input-button number-char" data-action="9">9</button>
-                    
-                        <button class="mode-button add" data-action="+50">+50</button>
-                    
-                    <br>
-                    <button class="input-button numpad-char" data-action="CLEAR">C</button>
-                    <button class="input-button number-char" data-action="0">0</button>
-                    <button class="input-button number-char dot"></button>
-                    <button class="input-button numpad-backspace" data-action="BACKSPACE">
-                        <img height="21" src="./odoo_theme/backspace.png" style="pointer-events: none;" width="24">
-                    </button>
-                    <br>
-                </div>
-                <div class="footer centered">
-                    <div class="button cancel">
-                        Cancel 
-                    </div>
-                    <div class="button confirm">
-                        Ok
-                    </div>
-                </div>
-            </div>
-        </div><div class="modal-dialog oe_hidden">
-            <div class="popup popup-import">
-                <p class="title">Finished Importing Orders</p>
-                
-                <div class="footer">
-                    <div class="button cancel">
-                        Ok
-                    </div>
-                </div>
-            </div>
-        </div></div>
-
-            <div class="loader oe_hidden" style="opacity: 0;">
-                <div class="loader-feedback oe_hidden">
-                    <h1 class="message">Loading</h1>
-                    <div class="progressbar">
-                        <div class="progress" width="50%"></div>
-                    </div>
-                    <div class="oe_hidden button skip">
-                        Skip
-                    </div>
-                </div>
-            </div>
-
         </div></div></div>
     
 
