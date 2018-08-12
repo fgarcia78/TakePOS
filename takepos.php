@@ -188,7 +188,12 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		
 		function Floor(floor){
 			$.colorbox({href:"floors.php?floor="+floor, width:"90%", height:"90%", transition:"none", iframe:"true", title:"<?php echo $langs->trans("Floors");?>"});
-	}
+		}
+		
+		function TakeposPrintingOrder(){
+			$("#poslines").load("invoice.php?action=order&place="+place, function() {
+		});
+}
 		
 		$( document ).ready(function() {
 			var firstcategory=$('span:first', 'div.category-list').attr( "data-category-id" );
@@ -286,10 +291,12 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
                             <div class="subwindow-container-fix pads">
                                 <div class="control-buttons oe_hidden"></div>
                                 <div class="actionpad">
-            <button class="button set-customer" onclick="Customer();">
-                <i class="fa fa-user"></i> 
-                <?php echo $langs->trans("Customer"); ?>
-            </button>
+			
+			<?php if($conf->global->TAKEPOS_BAR_RESTAURANT && $conf->global->TAKEPOS_ORDER_PRINTERS){
+				echo '<button class="button set-customer" onclick="TakeposPrintingOrder();"><i class="fa fa-user"></i>'.$langs->trans("Order").'</button>';
+			}
+			else echo '<button class="button set-customer" onclick="Customer();"><i class="fa fa-user"></i>'.$langs->trans("Customer").'</button>';
+			?>	
             <button class="button pay" onclick="CloseBill();">
                 <div class="pay-circle">
                     <i class="fa fa-chevron-right"></i> 
