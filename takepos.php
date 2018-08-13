@@ -74,6 +74,10 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			$(".content-row").removeClass("selected");
 		});
 		
+		$(document).on('click', '.searchbox', function () {
+			$(".header-row").removeClass("selected");
+		});
+		
 		function LoadProducts(catid){
 			var text="";
 			$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
@@ -232,13 +236,13 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			}
 			?>                   
                 
-            </span>
+            <?php /*</span>
             <span class="order-button square neworder-button">
                 <i class="fa fa-plus"></i>
             </span>
             <span class="order-button square deleteorder-button">
                 <i class="fa fa-minus"></i>
-            </span>
+            </span>*/?>
         </div>
                     
                 <div class="oe_status js_synch">
@@ -255,7 +259,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             <div class="js_error oe_icon oe_red oe_hidden">
                 <i class="fa fa-fw fa-warning"></i>
             </div>
-        </div><div class="header-button">
+        </div><div class="header-button" onclick="location.href='<?php echo DOL_URL_ROOT;?>';">
             <?php echo $langs->trans("Close");?>
         </div></div>
             </div>
