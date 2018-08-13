@@ -224,7 +224,8 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			
 			<?php
 			if($conf->global->TAKEPOS_BAR_RESTAURANT){
-				$sql="SELECT floor from ".MAIN_DB_PREFIX."takepos_floor_tables group by floor";
+				echo '<span class="order-button select-order selected" data-uid="1" onclick="Floor(1);"><span class="floor-button">'.$langs->trans("Floor").' 1</span></span>';
+				$sql="SELECT floor from ".MAIN_DB_PREFIX."takepos_floor_tables where floor>1 group by floor";
 				$resql = $db->query($sql);
 				$rows = array();
 				while($row = $db->fetch_array ($resql)){
