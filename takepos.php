@@ -82,8 +82,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			var text="";
 			$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
 				$.each(data, function(i, obj) {
-					price=Math.round(obj.price_ttc * 100) / 100;
-					text+='<span class="product" onclick="ClickProduct('+obj.id+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.id+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
+					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+obj.prettyprice+'</span></div><div class="product-name">'+obj.label+'</div></span>';
 				});	
 				$( "div.product-list" ).html(text);
 				Refresh();
@@ -183,8 +182,7 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 			var text="";
 			$.getJSON('./ajax.php?action=search&term='+$('#search').val(), function(data) {
 				$.each(data, function(i, obj) {
-					price=Math.round(obj.price_ttc * 100) / 100;
-					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+price+' €</span></div><div class="product-name">'+obj.label+'</div></span>';
+					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+obj.prettyprice+'</span></div><div class="product-name">'+obj.label+'</div></span>';
 				});	
 				$( "div.product-list" ).html(text);
 			});

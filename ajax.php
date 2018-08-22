@@ -30,11 +30,19 @@ $category = GETPOST('category');
 $action = GETPOST('action');
 $term = GETPOST('term');
 
-if ($action=="getProducts"){
-	$object = new Categorie($db);
-	$result=$object->fetch($category);
-	$prods = $object->getObjectsInCateg("product");
-	echo json_encode($prods);
+if ($action=="getProducts"){	
+	$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product as p,';
+	$sql.= ' ' . MAIN_DB_PREFIX . "categorie_product as c";
+	$sql.= ' WHERE p.entity IN ('.getEntity('product').')';
+	$sql.= ' AND c.fk_categorie = '.$category;
+	$sql.= ' AND c.fk_product = p.rowid';
+	$resql = $db->query($sql);
+	$rows = array();
+	while($row = $db->fetch_array ($resql)){
+		$row['prettyprice']=price($row['price_ttc'], 1, '', 1, - 1, - 1, $conf->currency);
+		$rows[] = $row;
+	}
+	echo json_encode($rows);
 }
 
 if ($action=="search"){
@@ -45,6 +53,7 @@ if ($action=="search"){
 	$resql = $db->query($sql);
 	$rows = array();
 	while($row = $db->fetch_array ($resql)){
+		$row['prettyprice']=price($row['price_ttc'], 1, '', 1, - 1, - 1, $conf->currency);
 		$rows[] = $row;
 	}
 	echo json_encode($rows);
