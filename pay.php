@@ -40,23 +40,25 @@ $langs->load("cashdesk");
 ?>
 <link rel="stylesheet" href="css/pos.css"> 
 	<script>
-	var received=0;
+	var received='';
 	function addreceived(price)
 	{
-	received+=parseFloat(price);
-	$('#change1').html(received.toFixed(2));
-	if (received><?php echo $invoice->total_ttc;?>)
+	received+=price;
+	var received_int=parseFloat(received);
+	$('#change1').html(received_int.toFixed(2));
+	if (received_int><?php echo $invoice->total_ttc;?>)
 		{
-		var change=parseFloat(received-<?php echo $invoice->total_ttc;?>);
+		var change=parseFloat(received_int-<?php echo $invoice->total_ttc;?>);
 		$('#change2').html(change.toFixed(2));
 		}
 	}
 	
 	function reset()
 	{
-		received=0;
-		addreceived(0);
-		$('#change2').html(received.toFixed(2));
+		received='';
+		received_int=0;
+		$('#change1').html('<?php echo price(0) ?>');
+		$('#change2').html('<?php echo price(0) ?>');
 	}
 	
 	function Validate(payment){
@@ -85,21 +87,21 @@ $langs->load("cashdesk");
 </div>
 
 <div style="position:absolute; top:40%; left:5%; height:55%; width:91%;">
-<button type="button" class="calcbutton" onclick="addreceived(10);">10</button>
-<button type="button" class="calcbutton" onclick="addreceived(20);">20</button>
-<button type="button" class="calcbutton" onclick="addreceived(50);">50</button>
+<button type="button" class="calcbutton" onclick="addreceived(7);">7</button>
+<button type="button" class="calcbutton" onclick="addreceived(8);">8</button>
+<button type="button" class="calcbutton" onclick="addreceived(9);">9</button>
 <button type="button" class="calcbutton2" onclick="Validate('cash');"><?php echo $langs->trans("Cash"); ?></button>
+<button type="button" class="calcbutton" onclick="addreceived(4);">4</button>
+<button type="button" class="calcbutton" onclick="addreceived(5);">5</button>
+<button type="button" class="calcbutton" onclick="addreceived(6);">6</button>
+<button type="button" class="calcbutton2" onclick="Validate('card');"><?php echo $langs->trans("PaymentTypeCB"); ?></button>
 <button type="button" class="calcbutton" onclick="addreceived(1);">1</button>
 <button type="button" class="calcbutton" onclick="addreceived(2);">2</button>
-<button type="button" class="calcbutton" onclick="addreceived(5);">5</button>
-<button type="button" class="calcbutton2" onclick="Validate('card');"><?php echo $langs->trans("PaymentTypeCB"); ?></button>
-<button type="button" class="calcbutton" onclick="addreceived(0.10);">0.10</button>
-<button type="button" class="calcbutton" onclick="addreceived(0.20);">0.20</button>
-<button type="button" class="calcbutton" onclick="addreceived(0.50);">0.50</button>
+<button type="button" class="calcbutton" onclick="addreceived(3);">3</button>
 <button type="button" class="calcbutton2" onclick="printclick();"><span id="printtext"><?php echo $langs->trans("GoBack"); ?></span></button>
-<button type="button" class="calcbutton" onclick="addreceived(0.01);">0.01</button>
-<button type="button" class="calcbutton" onclick="addreceived(0.02);">0.02</button>
-<button type="button" class="calcbutton" onclick="addreceived(0.05);">0.05</button>
+<button type="button" class="calcbutton" onclick="addreceived('0');">0</button>
+<button type="button" class="calcbutton" onclick="addreceived('00');">00</button>
+<button type="button" class="calcbutton" onclick="addreceived('.');">,</button>
 <button type="button" class="calcbutton2" onclick="reset();"><span style='font-size: 150%;'>C</span></button>
 </div>
 
