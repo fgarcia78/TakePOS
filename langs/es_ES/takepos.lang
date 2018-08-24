@@ -20,3 +20,4 @@ AddTable=Añadir mesa
 Place=Puesto
 TakeboxNecesary=Aplicación 'TakeBOX' requerida
 OrderPrinters=Impresoras de pedido
+ReloadCatalog=Recargar catálogo

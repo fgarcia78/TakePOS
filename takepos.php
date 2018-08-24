@@ -79,14 +79,21 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		});
 		
 		function LoadProducts(catid){
-			var text="";
-			$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
-				$.each(data, function(i, obj) {
-					text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+obj.prettyprice+'</span></div><div class="product-name">'+obj.label+'</div></span>';
-				});	
-				$( "div.product-list" ).html(text);
+			if (localStorage.getItem("htmlcat"+catid) === null){
+				var text="";
+				$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
+					$.each(data, function(i, obj) {
+						text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+obj.prettyprice+'</span></div><div class="product-name">'+obj.label+'</div></span>';
+					});	
+					localStorage.setItem("htmlcat"+catid, text);
+					$( "div.product-list" ).html(text);
+					Refresh();
+				});
+			}
+			else {
+				$( "div.product-list" ).html(localStorage.getItem("htmlcat"+catid));
 				Refresh();
-			});
+			}
 		}
 		
 		function Refresh(){
@@ -244,21 +251,10 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             </span>*/?>
         </div>
                     
-                <div class="oe_status js_synch">
-            <span class="js_msg oe_hidden"></span>
-            <div class="js_connected oe_icon oe_green">
-                <i class="fa fa-fw fa-wifi"></i>
-            </div>
-            <div class="js_connecting oe_icon oe_hidden">
-                <i class="fa fa-fw fa-spin fa-spinner"></i>
-            </div>
-            <div class="js_disconnected oe_icon oe_red oe_hidden">
-                <i class="fa fa-fw fa-wifi"></i>
-            </div>
-            <div class="js_error oe_icon oe_red oe_hidden">
-                <i class="fa fa-fw fa-warning"></i>
-            </div>
-        </div><div class="header-button" onclick="location.href='<?php echo DOL_URL_ROOT;?>';">
+		<div class="header-button" onclick="localStorage.clear();">
+            <?php echo $langs->trans("ReloadCatalog");?>
+        </div>
+		<div class="header-button" onclick="location.href='<?php echo DOL_URL_ROOT;?>';">
             <?php echo $langs->trans("Close");?>
         </div></div>
             </div>
