@@ -59,10 +59,29 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		
 		<link rel="stylesheet" href="css/colorbox.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
+		<script type="text/javascript" src="js/taffy-min.js"></script>
 		<script type="text/javascript">
 		var place="<?php echo $place;?>";
 		var editnumber="";
 		var editaction="qty";
+		
+		<?php
+		// Products to javascript multidimensional array
+		echo "var products = TAFFY([";
+		$sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product as p,';
+		$sql.= ' ' . MAIN_DB_PREFIX . "categorie_product as c";
+		$sql.= ' WHERE p.entity IN ('.getEntity('product').')';
+		$sql.= ' AND c.fk_product = p.rowid';
+		$resql = $db->query($sql);
+		$rows = array();
+		while($row = $db->fetch_array ($resql)){
+			$row['prettyprice']=price($row['price_ttc'], 1, '', 1, - 1, - 1, $conf->currency);
+			echo "{rowid:".$row['rowid'].",cat:".$row['fk_categorie'].",label:'".$row['label']."',prettyprice:'".$row['prettyprice']."'},";
+		}
+		echo "]);";
+		?>
+		
+		
 		
 		$(document).on('click', '.js-category-switch', function () {
 			var catid=$(this).attr( "data-category-id" );
@@ -79,21 +98,11 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
 		});
 		
 		function LoadProducts(catid){
-			if (localStorage.getItem("htmlcat"+catid) === null){
-				var text="";
-				$.getJSON('./ajax.php?action=getProducts&category='+catid, function(data) {
-					$.each(data, function(i, obj) {
-						text+='<span class="product" onclick="ClickProduct('+obj.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+obj.rowid+'"><span class="price-tag">'+obj.prettyprice+'</span></div><div class="product-name">'+obj.label+'</div></span>';
-					});	
-					localStorage.setItem("htmlcat"+catid, text);
-					$( "div.product-list" ).html(text);
-					Refresh();
-				});
-			}
-			else {
-				$( "div.product-list" ).html(localStorage.getItem("htmlcat"+catid));
-				Refresh();
-			}
+			var text="";
+			products({cat:{'==':catid}}).each(function (r) {
+				text+='<span class="product" onclick="ClickProduct('+r.rowid+')"><div class="product-img"><img src="getimg/?query=pro&id='+r.rowid+'"><span class="price-tag">'+r.prettyprice+'</span></div><div class="product-name">'+r.label+'</div></span>';
+			});
+			$( "div.product-list" ).html(text);
 		}
 		
 		function Refresh(){
@@ -251,9 +260,6 @@ top_htmlhead($head, $title, $disablejs, $disablehead, $arrayofjs, $arrayofcss);
             </span>*/?>
         </div>
                     
-		<div class="header-button" onclick="localStorage.clear();">
-            <?php echo $langs->trans("ReloadCatalog");?>
-        </div>
 		<div class="header-button" onclick="location.href='<?php echo DOL_URL_ROOT;?>';">
             <?php echo $langs->trans("Close");?>
         </div></div>
