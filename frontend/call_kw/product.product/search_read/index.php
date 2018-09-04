@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $json_str = file_get_contents('php://input');
 $json_obj = json_decode($json_str);
 
-class Products {
+class Product {
     public $categ_id = "";
     public $barcode  = "";
     public $taxes_id = "";
@@ -25,34 +25,34 @@ class Products {
 }
 
 $sql = 'SELECT * FROM '.MAIN_DB_PREFIX.'product as p,';
-	$sql.= ' ' . MAIN_DB_PREFIX . "categorie_product as c";
-	$sql.= ' WHERE p.entity IN ('.getEntity('product').')';
-	$sql.= ' AND c.fk_categorie = '.$category;
-	$sql.= ' AND c.fk_product = p.rowid';
-	$resql = $db->query($sql);
-	$rows = array();
-	while($row = $db->fetch_array ($resql)){
-		$row['prettyprice']=price($row['price_ttc'], 1, '', 1, - 1, - 1, $conf->currency);
-		$rows[] = $row;
-	}
-
-$categorie = new Categorie($db);
-$categories = $categorie->get_full_arbo('product');
-class Category {
-    public $name = "";
-    public $parent_id  = "";
-    public $id = "";
-	public $child_id = "";
+$sql.= ' ' . MAIN_DB_PREFIX . "categorie_product as c";
+$sql.= ' WHERE p.entity IN ('.getEntity('product').')';
+$sql.= ' AND c.fk_product = p.rowid';
+$resql = $db->query($sql);
+$rows = array();
+$prodsjson=array();
+while($row = $db->fetch_array ($resql)){
+	$row['prettyprice']=price($row['price_ttc'], 1, '', 1, - 1, - 1, $conf->currency);
+	$rows[] = $row;
+	$prod = new Product();
+	$prod->categ_id = $row['fk_categorie'];
+    $prod->barcode  = false;
+    $prod->taxes_id = "";
+	$prod->pos_categ_id = false;
+	$prod->uom_id = array("1", "Unit(s)");
+	$prod->list_price = $row['price_ttc'];
+	$prod->standard_price = $row['price_ttc'];
+	$prod->lst_price = $row['price_ttc'];
+	$prod->default_code = "";
+	$prod->id = $row['rowid'];
+	$prod->description_sale = false;
+	$prod->display_name = $row['label'];
+	$prod->description = $row['label'];
+	$prod->tracking = "none";
+	$prod->product_tmpl_id = "";
+	$prod->to_weight = false;
+	$prods[]=$prod;
 }
-$cats=array(); 
-foreach($categories as $key => $val)
-{
-	$cat = new Category();
-	$cat->name = $val['label'];
-	$cat->parent_id  = false;
-	$cat->id  = $val['id'];
-	$cats[]=$cat;    
-}
-$catsjson= json_encode($cats);
+$prodsjson= json_encode($prods);
 ?>
-{"result": <?php echo $catsjson;?>, "jsonrpc": "2.0", "id": 672236527}
+{"result": <?php echo $prodsjson;?>, "jsonrpc": "2.0", "id": 672236527}

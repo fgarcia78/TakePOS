@@ -3849,7 +3849,7 @@ Payment
 <button class="input-button number-char">0</button>
 <button class="input-button number-char">.</button>
 <button class="input-button numpad-backspace">
-<img height="21" src="/point_of_sale/static/src/img/backspace.png" style="pointer-events: none;" width="24"/>
+<img height="21" src="img/backspace.png" style="pointer-events: none;" width="24"/>
 </button>
 </div>
 </t>
@@ -3879,7 +3879,7 @@ Payment
 </span>
 <t t-as="category" t-foreach="widget.breadcrumb">
 <span class="breadcrumb">
-<img class="breadcrumb-arrow" src="/point_of_sale/static/src/img/bc-arrow-big.png"/>
+<img class="breadcrumb-arrow" src="img/bc-arrow-big.png"/>
 <span class="breadcrumb-button js-category-switch" t-att-data-category-id="category.id">
 <t t-esc="category.name"/>
 </span>
@@ -4312,7 +4312,7 @@ Select Customer
 <t t-esc="widget.decimal_point"/>
 </button>
 <button class="input-button numpad-backspace" data-action="BACKSPACE">
-<img height="21" src="/point_of_sale/static/src/img/backspace.png" width="24"/>
+<img height="21" src="img/backspace.png" width="24"/>
 </button>
 </div>
 </t>
@@ -4949,7 +4949,7 @@ The Point of Sale could not find any product, client, employee or action associa
 <t t-esc="widget.decimal_separator"/>
 </button>
 <button class="input-button numpad-backspace" data-action="BACKSPACE">
-<img height="21" src="/point_of_sale/static/src/img/backspace.png" style="pointer-events: none;" width="24"/>
+<img height="21" src="img/backspace.png" style="pointer-events: none;" width="24"/>
 </button>
 <br/>
 </div>
