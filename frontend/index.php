@@ -1,3 +1,7 @@
+<?php
+$res=@include("../main.inc.php");
+if (! $res) $res=@include("../../main.inc.php");
+?>
 <!DOCTYPE html>
 <html>
     <head>
