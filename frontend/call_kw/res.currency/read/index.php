@@ -1,6 +1,6 @@
 <?php
-$res=@include("../../../../main.inc.php");
-if (! $res) $res=@include("../../../../../main.inc.php");
+$res=@include("../../../../../main.inc.php");
+if (! $res) $res=@include("../../../../../../main.inc.php");
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/company.lib.php';
 header('Content-Type: application/json');
