@@ -13,14 +13,23 @@ foreach ($json_obj->params->args[0] as &$invoice) {
 	$obj->socid          = $conf->global->CASHDESK_ID_THIRDPARTY;
 	$obj->date           = mktime();
 	$obj->cond_reglement_id = 1;
-	$line1=new FactureLigne($db);
-	$line1->tva_tx=10.0;
-	$line1->remise_percent=0;
-	$line1->qty=1;
-	$line1->total_ht=$json_obj->params->args[0][0]->data->amount_total-$json_obj->params->args[0][0]->data->amount_tax;
-	$line1->total_tva=$json_obj->params->args[0][0]->data->amount_tax;
-	$line1->total_ttc=$json_obj->params->args[0][0]->data->amount_total;
-	$obj->lines[]=$line1;
+	
+	foreach ($invoice->data->lines as &$line) {
+		$prod = new Product($db);
+		$prod->fetch($line[2]->product_id);
+		$line1=new FactureLigne($db);
+		$line1->fk_product=$line[2]->product_id;
+		$line1->tva_tx=$prod->tva_tx;
+		$line1->remise_percent=$line[2]->discount;
+		$line1->qty=$line[2]->qty;
+		$line1->total_ht=$prod->tva_tx/100;
+		$line1->total_ht=$line1->total_ht+1;
+		$line1->total_ht=round($line[2]->price_unit/$line1->total_ht,2);
+		$line1->total_tva=$line[2]->price_unit-$line1->total_ht;
+		$line1->total_ttc=$line[2]->price_unit;
+		$line1->subprice=$line[2]->price_unit;
+		$obj->lines[]=$prod->price;
+	}
 	
 	// Create invoice
 	$idobject=$obj->create($user);
