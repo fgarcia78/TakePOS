@@ -1,6 +1,6 @@
 <?php
-$res=@include("../../../../main.inc.php");
-if (! $res) $res=@include("../../../../../main.inc.php");
+$res=@include("../../../../../main.inc.php");
+if (! $res) $res=@include("../../../../../../main.inc.php");
 header('Content-Type: application/json');
 $json_str = file_get_contents('php://input');
 $json_obj = json_decode($json_str);
