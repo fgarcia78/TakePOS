@@ -63,6 +63,7 @@ if (GETPOST('action','alpha') == 'set')
 	$res = dolibarr_set_const($db,"TAKEPOS_BAR_RESTAURANT", GETPOST('TAKEPOS_BAR_RESTAURANT','alpha'),'chaine',0,'',$conf->entity);
     $res = dolibarr_set_const($db,"TAKEPOS_PRINT_SERVER", GETPOST('TAKEPOS_PRINT_SERVER','alpha'),'chaine',0,'',$conf->entity);
 	$res = dolibarr_set_const($db,"TAKEPOS_ORDER_PRINTERS", GETPOST('TAKEPOS_ORDER_PRINTERS','alpha'),'chaine',0,'',$conf->entity);
+	$res = dolibarr_set_const($db,"TAKEPOS_FLOORS", GETPOST('TAKEPOS_FLOORS','alpha'),'chaine',0,'',$conf->entity);
 
 	dol_syslog("admin/cashdesk: level ".GETPOST('level','alpha'));
 
@@ -199,6 +200,14 @@ print $form->selectyesno("TAKEPOS_BAR_RESTAURANT",$conf->global->TAKEPOS_BAR_RES
 print "</td></tr>\n";
 
 if ($conf->global->TAKEPOS_BAR_RESTAURANT and $conf->global->TAKEBOX){
+	print '<tr class="oddeven value"><td>';
+    print $langs->trans("Floors");
+    print '<td colspan="2">';
+    print '<input type="text" size="20" id="TAKEPOS_FLOORS" name="TAKEPOS_FLOORS" value="';
+	if ($conf->global->TAKEPOS_FLOORS=="") print "Main,Terrace"; else print $conf->global->TAKEPOS_FLOORS;
+	print '">';
+    print '</td></tr>';
+	
     print '<tr class="oddeven value"><td>';
     print $langs->trans("OrderPrinters").' (<a href="orderprinters.php?leftmenu=setup">'.$langs->trans("Setup").'</a>)';
     print '<td colspan="2">';

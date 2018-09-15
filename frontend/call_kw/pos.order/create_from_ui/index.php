@@ -37,7 +37,7 @@ foreach ($json_obj->params->args[0] as &$invoice) {
 	{
 		// Change status to validated
 		$result=$obj->validate($user);
-		if ($result > 0) print "OK Object created with id ".$idobject."\n";
+		if ($result > 0) print "";
 		else
 		{
 			$error++;
@@ -58,7 +58,7 @@ foreach ($json_obj->params->args[0] as &$invoice) {
 if (! $error)
 {
 	$db->commit();
-	print '--- end ok'."\n";
+	echo '{"result": [1], "jsonrpc": "2.0", "id": 780044868}';
 }
 else
 {
@@ -67,4 +67,3 @@ else
 }
 $db->close();
 ?>
-{"result": [1], "jsonrpc": "2.0", "id": 780044868}
