@@ -28,7 +28,7 @@ foreach ($json_obj->params->args[0] as &$invoice) {
 		$line1->total_tva=$line[2]->price_unit-$line1->total_ht;
 		$line1->total_ttc=$line[2]->price_unit;
 		$line1->subprice=$line[2]->price_unit;
-		$obj->lines[]=$prod->price;
+		$obj->lines[]=$line1;
 	}
 	
 	// Create invoice
