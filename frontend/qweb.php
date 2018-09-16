@@ -3092,7 +3092,7 @@ if (! $res) $res=@include("../../../main.inc.php");
 				</label>
 				<div class="o_button_section">
 					<button class="btn btn-sm btn-primary" data-action="save" type="submit">Save</button>
-					<button class="btn btn-sm btn-default" data-action="close" type="button">Close</button>
+					<button class="btn btn-sm btn-default" data-action="close" type="button"><?php echo $langs->trans('Close');?> </button>
 				</div>
 			</div>
 			<div id="ace-view-id">
@@ -5386,7 +5386,7 @@ if (! $res) $res=@include("../../../main.inc.php");
 				<li class="right-shift lastitem">shift</li>
 				<li class="space firstitem lastitem">&amp;nbsp;</li>
 			</ul>
-			<p class="close_button">close</p>
+			<p class="close_button"><?php echo $langs->trans('Close');?> </p>
 		</div>
 	</t>
 	<t t-name="OnscreenKeyboardSimple">
@@ -5508,7 +5508,7 @@ if (! $res) $res=@include("../../../main.inc.php");
 				</li>
 				<li class="return lastitem">return</li>
 			</ul>
-			<p class="close_button">close</p>
+			<p class="close_button"><?php echo $langs->trans('Close');?> </p>
 		</div>
 	</t>
 	<t t-name="CustomerFacingDisplayHead">
@@ -6821,7 +6821,7 @@ if (! $res) $res=@include("../../../main.inc.php");
 		<div role="alert" t-att-class="'notification alert-dismissible alert alert-' + type">
 			<button class="close" data-dismiss="alert" type="button">
 				<span aria-hidden="true" class="fa fa-times" />
-				<span class="sr-only">Close</span>
+				<span class="sr-only"><?php echo $langs->trans('Close');?> </span>
 			</button>
 			<t t-esc="message" />
 			<t t-if="details !== undefined">
@@ -10465,7 +10465,7 @@ if (! $res) $res=@include("../../../main.inc.php");
 		<div class="alert alert-info alert-dismissable" role="alert">
 			<button class="close" data-dismiss="alert" type="button">
 				<span aria-hidden="true">×</span>
-				<span class="sr-only">Close</span>
+				<span class="sr-only"><?php echo $langs->trans('Close');?> </span>
 			</button>
 			<p>Move this question to the top of the list by sharing it on social networks.</p>
 			<br />
