@@ -21,3 +21,6 @@ Place=Place
 TakeboxNecesary='TakeBOX' application required
 OrderPrinters=Order printers
 ReloadCatalog=Reload Catalog
+noyettables=This floor has no tables yet, use the
+toolbartocreate=button in the editing toolbar to create new tables.
+shoppingcart=Your shopping cart is empty

@@ -21,3 +21,6 @@ Place=Puesto
 TakeboxNecesary=Aplicación 'TakeBOX' requerida
 OrderPrinters=Impresoras de pedido
 ReloadCatalog=Recargar catálogo
+noyettables=El salon no tiene mesas aun, usa el
+toolbartocreate=boton en la barra de edicion para crear nuevas mesas.
+shoppingcart=Su carrito esta vacio

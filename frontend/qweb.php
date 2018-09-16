@@ -1,4 +1,8 @@
-﻿<templates>
+﻿<?php
+$res=@include("../../main.inc.php");
+if (! $res) $res=@include("../../../main.inc.php");
+?>
+<templates>
 	<div t-name="EmptyComponent" />
 	<div class="o_loading" t-name="Loading" />
 	<t t-name="WidgetLabel.tooltip">
@@ -5013,7 +5017,7 @@
 					<t t-if="orderlines.length === 0">
 						<div class="order-empty">
 							<i class="fa fa-shopping-cart" />
-							<h1>Your shopping cart is empty</h1>
+							<h1><?php echo $langs->trans('shoppingcart');?> </h1>
 						</div>
 					</t>
 					<t t-if="orderlines.length &gt; 0">
@@ -6119,8 +6123,8 @@
 				</t>
 				<div class="floor-map" t-att-style="widget.get_floor_style()">
 					<div class="empty-floor oe_hidden">
-                        This floor has no tables yet, use the 
-						<i class="fa fa-plus" /> button in the editing toolbar to create new tables.
+                        <?php echo $langs->trans('noyettables');?> 
+						<i class="fa fa-plus" /> <?php echo $langs->trans('toolbartocreate');?> 
                     
 					</div>
 					<div class="tables" />
