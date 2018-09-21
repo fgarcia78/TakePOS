@@ -185,7 +185,7 @@ print "</td></tr>\n";
 
 if ($conf->global->TAKEBOX){
     print '<tr class="oddeven value"><td>';
-    print $langs->trans("IPAddress").' (<a href="http://en.takepos.com/takebox">'.$langs->trans("TakeboxNecesary").'</a>)';
+    print $langs->trans("IPAddress").' (<a href="http://www.jposbox.org">'.$langs->trans("TakeboxNecesary").'</a>)';
     print '<td colspan="2">';
     print '<input type="text" size="20" id="TAKEPOS_PRINT_SERVER" name="TAKEPOS_PRINT_SERVER" value="'.$conf->global->TAKEPOS_PRINT_SERVER.'">';
     print '</td></tr>';
