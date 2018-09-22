@@ -1,6 +1,10 @@
 ﻿<?php
 $res=@include("../../main.inc.php");
 if (! $res) $res=@include("../../../main.inc.php");
+$langs->load("main");
+$langs->load("bills");
+$langs->load("orders");
+$langs->load("commercial");
 ?>
 <templates><div t-name="EmptyComponent" />
 
@@ -2217,14 +2221,14 @@ if (! $res) $res=@include("../../../main.inc.php");
                     <t t-esc="widget.pos.get_client().name" />
                 </t>
                 <t t-if="!widget.pos.get_client()">
-                    Customer
+                    <?php echo $langs->trans("Customer");?>
                 </t>
             </button>
             <button class="button pay">
                 <div class="pay-circle">
                     <i class="fa fa-chevron-right" /> 
                 </div>
-                Payment
+                <?php echo $langs->trans("Validate");?>
             </button>
         </div>
     </t>
@@ -2291,7 +2295,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                 </t>
             </div>
             <div class="searchbox">
-                <input placeholder="Search Products" />
+                <input placeholder="<?php echo $langs->trans("Search");?>" />
                 <span class="search-clear" />
             </div>
         </header>
@@ -2368,7 +2372,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                 <div class="top-content">
                     <span class="button back">
                         <i class="fa fa-angle-double-left" />
-                        Back
+                        <?php echo $langs->trans("Back");?>
                     </span>
                     <h1 class="product-name"><t t-esc="widget.get_product_name()" /></h1>
                 </div>
@@ -2717,11 +2721,11 @@ if (! $res) $res=@include("../../../main.inc.php");
                 <div class="top-content">
                     <span class="button back">
                         <i class="fa fa-angle-double-left" />
-                        Back
+                        <?php echo $langs->trans("Back");?>
                     </span>
                     <h1>Payment</h1>
                     <span class="button next">
-                        Validate
+                        <?php echo $langs->trans("Validate");?>
                         <i class="fa fa-angle-double-right" />
                     </span>
                 </div>
@@ -2747,7 +2751,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                                     <t t-esc="widget.pos.get_client().name" />
                                 </t>
                                 <t t-if="!widget.pos.get_client()">
-                                    Customer
+                                    <?php echo $langs->trans("Customer");?>
                                 </t>
                             </span>
                         </div>
@@ -3375,7 +3379,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                     <t t-if="orderlines.length === 0">
                         <div class="order-empty">
                             <i class="fa fa-shopping-cart" />
-                            <h1>Your shopping cart is empty</h1>
+                            <h1><?php echo $langs->trans("shoppingcart");?></h1>
                         </div>
                     </t>
                     <t t-if="orderlines.length &gt; 0">
@@ -3893,7 +3897,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                 <div class="top-content">
                     <span class="button back">
                         <i class="fa fa-angle-double-left" />
-                        Back
+                        <?php echo $langs->trans("Back");?>
                     </span>
                     <h1>Bill Splitting</h1>
                 </div>
@@ -3923,7 +3927,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                 <div class="top-content">
                     <span class="button back">
                         <i class="fa fa-angle-double-left" />
-                        Back
+                        Ba<?php echo $langs->trans("Back");?>ck
                     </span>
                     <h1>Bill Printing</h1>
                     <span class="button next">
@@ -4202,7 +4206,7 @@ if (! $res) $res=@include("../../../main.inc.php");
                 </t>
                 <div class="floor-map" t-att-style="widget.get_floor_style()">
                     <div class="empty-floor oe_hidden">
-                        This floor has no tables yet, use the <i class="fa fa-plus" /> button in the editing toolbar to create new tables.
+                        <?php echo $langs->trans("noyettables");?> <i class="fa fa-plus" /> <?php echo $langs->trans("shoppingcart");?>
                     </div>
                     <div class="tables" />
                     <span class="edit-button editing" t-if="widget.pos.user.role == 'manager'"><i class="fa fa-pencil" /></span>
@@ -5606,7 +5610,7 @@ if (! $res) $res=@include("../../../main.inc.php");
         <table class="accounting_view">
             <caption>
                 <div class="pull-right o_buttons">
-                    <button t-attf-class="o_validate btn btn-default btn-sm #{!state.balance.type ? '' : 'hidden'}">Validate</button>
+                    <button t-attf-class="o_validate btn btn-default btn-sm #{!state.balance.type ? '' : 'hidden'}"><?php echo $langs->trans("Validate");?></button>
                     <button t-attf-class="o_reconcile btn btn-primary btn-sm #{state.balance.type &gt; 0 ? '' : 'hidden'}">Reconcile</button>
                     <span t-attf-class="o_no_valid text-danger #{state.balance.type &lt; 0 ? '' : 'hidden'}">Select a partner or choose a counterpart</span>
                 </div>

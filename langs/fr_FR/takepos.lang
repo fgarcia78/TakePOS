@@ -20,3 +20,7 @@ AddTable=Ajouter une table
 Place=Endroit
 TakeboxNecesary=PosBox ou jPosBox requise
 OrderPrinters=Commande imprimantes
+noyettables=Cet étage n'a pas encore de tables, utilisez le
+toolbartocreate=bouton dans la barre d'outils d'édition pour créer de nouvelles tables.
+shoppingcart=Votre panier est vide
+Guests=Invités
