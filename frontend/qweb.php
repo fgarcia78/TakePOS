@@ -2785,13 +2785,13 @@ $langs->load("cashdesk");
                 <div class="top-content">
                     <h1><?php echo htmlentities($langs->trans("Change"));?>: <span class="change-value">0.00</span></h1>
                     <span class="button next">
-                        Next Order
+                        <?php echo htmlentities($langs->trans("NewSell"));?>
                         <i class="fa fa-angle-double-right" />
                     </span>
                 </div>
                 <div class="centered-content touch-scrollable">
                     <div class="button print">
-                        <i class="fa fa-print" /> Print Receipt
+                        <i class="fa fa-print" /> <?php echo htmlentities($langs->trans("Print"));?>
                     </div>
                     <div class="pos-receipt-container">
                     </div>
@@ -3389,7 +3389,7 @@ $langs->load("cashdesk");
                             <div class="line">
                                 <div class="entry total">
                                     <span class="label">Total: </span> <span class="value">0.00 €</span>
-                                    <div class="subentry">Taxes: <span class="value">0.00€</span></div>
+                                    <div class="subentry oe_hidden">Taxes: <span class="value">0.00€</span></div>
                                 </div>
                             </div>
                         </div>
