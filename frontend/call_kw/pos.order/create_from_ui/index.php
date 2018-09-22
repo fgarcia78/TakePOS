@@ -2,6 +2,7 @@
 $res=@include("../../../../../main.inc.php");
 if (! $res) $res=@include("../../../../../../main.inc.php");
 require_once(DOL_DOCUMENT_ROOT."/compta/facture/class/facture.class.php");
+require_once DOL_DOCUMENT_ROOT.'/compta/paiement/class/paiement.class.php';
 header('Content-Type: application/json');
 $json_str = file_get_contents('php://input');
 $json_obj = json_decode($json_str);
@@ -37,7 +38,20 @@ foreach ($json_obj->params->args[0] as &$invoice) {
 	{
 		// Change status to validated
 		$result=$obj->validate($user);
-		if ($result > 0) print "";
+		if ($result > 0){
+			if ($invoice->data->statement_ids[0][2]->account_id==1) $bankaccount=$conf->global->CASHDESK_ID_BANKACCOUNT_CASH;
+			else $bankaccount=$conf->global->CASHDESK_ID_BANKACCOUNT_CB;
+			$payment=new Paiement($db);
+			$payment->datepaye=$now;
+			$payment->bank_account=$bankaccount;
+			$payment->amounts[$obj->id]=$obj->total_ttc;
+			if ($invoice->data->statement_ids[0][2]->account_id==1) $payment->paiementid=4;
+			else $payment->paiementid=6;
+			$payment->num_paiement=$obj->facnumber;
+			$payment->create($user);
+			$payment->addPaymentToBank($user, 'payment', '(CustomerInvoicePayment)', $bankaccount, '', '');
+			$obj->set_paid($user);
+		}
 		else
 		{
 			$error++;
