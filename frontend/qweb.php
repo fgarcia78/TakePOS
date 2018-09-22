@@ -2783,7 +2783,7 @@ $langs->load("cashdesk");
         <div class="receipt-screen screen">
             <div class="screen-content">
                 <div class="top-content">
-                    <h1>Change: <span class="change-value">0.00</span></h1>
+                    <h1><?php echo htmlentities($langs->trans("Change"));?>: <span class="change-value">0.00</span></h1>
                     <span class="button next">
                         Next Order
                         <i class="fa fa-angle-double-right" />
@@ -3547,7 +3547,7 @@ $langs->load("cashdesk");
                         </t>
                     </td>
                     <td class="pos-right-align">
-                        <t t-esc="orderline.get_quantity_str_with_unit()" />
+                        <t t-esc="orderline.get_quantity()" />
                     </td>
                     <td class="pos-right-align">
                         <t t-esc="widget.format_currency(orderline.get_display_price())" />
