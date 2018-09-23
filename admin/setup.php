@@ -41,6 +41,7 @@ accessforbidden();
 
 $langs->load("admin");
 $langs->load("cashdesk");
+$langs->load("printing");
 
 
 /*
@@ -178,7 +179,7 @@ if (! empty($conf->service->enabled))
 // Use Takepos printing
 $var=! $var;
 print '<tr class="oddeven"><td>';
-print $langs->trans("DolibarrReceiptPrinter").' TakeBOX (<a href="http://en.takepos.com/takebox">'.$langs->trans("TakeboxNecesary").'</a>)';
+print $langs->trans("DirectPrint").' (<a href="http://en.takepos.com/takebox">'.$langs->trans("TakeboxNecesary").'</a>)';
 print '<td colspan="2">';
 print $form->selectyesno("TAKEBOX",$conf->global->TAKEBOX,1);
 print "</td></tr>\n";
