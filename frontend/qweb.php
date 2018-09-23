@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $res=@include("../../main.inc.php");
 if (! $res) $res=@include("../../../main.inc.php");
 $langs->load("main");
@@ -976,7 +976,7 @@ $langs->load("cashdesk");
 </div>
 <t t-name="SearchView.filters">
     <li t-as="filter" t-att-data-index="filter_index" t-att-title="filter.attrs.string ? filter.attrs.help : undefined" t-foreach="widget.filters" t-if="!filter.visible || filter.visible()">
-        <a href="#"><t t-esc="filter.attrs.string or filter.attrs.help or filter.attrs.name or 'Ω'" /></a>
+        <a href="#"><t t-esc="filter.attrs.string or filter.attrs.help or filter.attrs.name or 'O'" /></a>
     </li>
 </t>
 <t t-name="SearchView.field">
