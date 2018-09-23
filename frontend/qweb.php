@@ -2288,7 +2288,7 @@ $langs->load("cashdesk");
                 </span>
                 <t t-as="category" t-foreach="widget.breadcrumb">
                     <span class="breadcrumb">
-                        <img class="breadcrumb-arrow" src="/point_of_sale/static/src/img/bc-arrow-big.png" />
+                        <img class="breadcrumb-arrow" src="img/bc-arrow-big.png" />
                         <span class="breadcrumb-button js-category-switch" t-att-data-category-id="category.id">
                             <t t-esc="category.name" />
                         </span>
