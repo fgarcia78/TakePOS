@@ -200,7 +200,7 @@ print '<td colspan="2">';
 print $form->selectyesno("TAKEPOS_BAR_RESTAURANT",$conf->global->TAKEPOS_BAR_RESTAURANT,1);
 print "</td></tr>\n";
 
-if ($conf->global->TAKEPOS_BAR_RESTAURANT and $conf->global->TAKEBOX){
+if ($conf->global->TAKEPOS_BAR_RESTAURANT){
 	print '<tr class="oddeven value"><td>';
     print $langs->trans("Floors");
     print '<td colspan="2">';
