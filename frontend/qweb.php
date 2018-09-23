@@ -3354,7 +3354,7 @@ $langs->load("cashdesk");
                             <t t-esc="line.get_quantity_str()" />
                         </em>
                         <t t-esc="line.get_unit().name" />
-                        at
+                        x
                         <t t-esc="widget.format_currency(line.get_unit_display_price(),'Product Price')" />
                         /
                         <t t-esc="line.get_unit().name" />
@@ -3873,7 +3873,7 @@ $langs->load("cashdesk");
                             </em>
                         </t>
                         <t t-esc="line.get_unit().name" />
-                        at
+                        x
                         <t t-esc="widget.format_currency(line.get_unit_price())" />
                         /
                         <t t-esc="line.get_unit().name" />
