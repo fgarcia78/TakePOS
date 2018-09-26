@@ -25,10 +25,10 @@ foreach ($json_obj->params->args[0] as &$invoice) {
 		$line1->qty=$line[2]->qty;
 		$line1->total_ht=$prod->tva_tx/100;
 		$line1->total_ht=$line1->total_ht+1;
-		$line1->total_ht=round($line[2]->price_unit/$line1->total_ht,2);
-		$line1->total_tva=$line[2]->price_unit-$line1->total_ht;
-		$line1->total_ttc=$line[2]->price_unit;
-		$line1->subprice=$line[2]->price_unit;
+		$line1->subprice=$line[2]->price_unit/$line1->total_ht;
+		$line1->total_ht=round($line1->subprice*$line[2]->qty,2);
+		$line1->total_tva=($line[2]->price_unit*$line[2]->qty)-($line1->subprice*$line[2]->qty);
+		$line1->total_ttc=$line[2]->price_unit*$line[2]->qty;
 		$obj->lines[]=$line1;
 	}
 	
